@@ -1,11 +1,11 @@
 ReciprocalFibonacci
 =======
 
-Given an accuracy, calculation of the [reciprocal fibonacci constant (ψ)](https://en.wikipedia.org/wiki/Reciprocal_Fibonacci_constant). 
-Algorithms here can handle very big input using BigInteger struct. The number is calculated digit by digit so you 
-can run it with a very large input and stop at any where you want.
+Given an accuracy, calculate of the [reciprocal fibonacci constant (ψ)](https://en.wikipedia.org/wiki/Reciprocal_Fibonacci_constant). 
+Algorithms here can handle very big input using BigInteger struct. The result is calculated digit by digit so you 
+can run it with a very large input and stop at anywhere you want.
 
-Time and memory required for each methods
+Time and memory required for each method
 -------
 ```
 Testing first 5000 digits
