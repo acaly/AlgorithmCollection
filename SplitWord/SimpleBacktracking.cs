@@ -13,19 +13,35 @@ namespace SplitWord
 
         public SimpleBacktracking(IEnumerable<string> dict)
         {
-            var a = dict.Distinct().OrderBy(s => s.Length).ToArray();
+            var a = dict.Distinct().OrderBy(s => s.Length);
             _words.Add(new WordInfo());
-            for (int i = 0; i < a.Length; ++i)
+            int i = 0;
+            foreach (var str in a)
             {
-                var findPrefix = i == 0 ? -1 :
-                    Array.FindLastIndex(a, i - 1, i, s => a[i].StartsWith(s));
                 _words.Add(new WordInfo
                 {
-                    Word = a[i],
-                    BackIndex = 1 + findPrefix,
+                    Word = str,
+                    BackIndex = FindPrefix(str),
                 });
-                _root[0].Put(a[i], 0, i + 1);
+                _root[0].Put(str, 0, _words.Count - 1);
             }
+        }
+
+        private int FindPrefix(string str)
+        {
+            SearchNode[] nodes = _root;
+            int index = 0;
+            int lastIndex = 0;
+            for (int i = 0; i < str.Length; ++i)
+            {
+                nodes[index].Find(str[i], out nodes, out index);
+                if (nodes == null)
+                {
+                    return lastIndex;
+                }
+                lastIndex = Math.Max(lastIndex, nodes[index].WordIndex);
+            }
+            return lastIndex;
         }
 
         private string _str;
@@ -179,16 +195,11 @@ namespace SplitWord
             public int SearchTableEnd;
             public SearchNode[] Next;
 
-            public string DebugInfo;
+            //public string DebugInfo;
 
             public void Find(char ch, out SearchNode[] l, out int index)
             {
-                if (Next == null)
-                {
-                    l = null;
-                    index = 0;
-                }
-                if (ch < SearchTableStart || ch >= SearchTableEnd)
+                if (Next == null || ch < SearchTableStart || ch >= SearchTableEnd)
                 {
                     l = null;
                     index = 0;
@@ -207,7 +218,7 @@ namespace SplitWord
                     Next = new SearchNode[1];
                     SearchTableStart = word[level];
                     SearchTableEnd = word[level] + 1;
-                    Next[0].DebugInfo = word.Substring(0, level + 1);
+                    //Next[0].DebugInfo = word.Substring(0, level + 1);
                     if (level == word.Length - 1)
                     {
                         Next[0].WordIndex = wordIndex;
@@ -222,15 +233,18 @@ namespace SplitWord
                     int ch = word[level];
                     int newStart = Math.Min(SearchTableStart, ch);
                     int newEnd = Math.Max(SearchTableEnd, ch + 1);
-                    var newNext = new SearchNode[newEnd - newStart];
-                    Array.Copy(Next, 0, newNext, SearchTableStart - newStart, Next.Length);
-                    Next = newNext;
-                    SearchTableStart = newStart;
-                    SearchTableEnd = newEnd;
-                    for (int i = newStart; i < newEnd; ++i)
+                    if (newStart < SearchTableStart || newEnd > SearchTableEnd)
                     {
-                        Next[i - newStart].DebugInfo = word.Substring(0, level) + (char)(i);
+                        var newNext = new SearchNode[newEnd - newStart];
+                        Array.Copy(Next, 0, newNext, SearchTableStart - newStart, Next.Length);
+                        Next = newNext;
+                        SearchTableStart = newStart;
+                        SearchTableEnd = newEnd;
                     }
+                    //for (int i = newStart; i < newEnd; ++i)
+                    //{
+                    //    Next[i - newStart].DebugInfo = word.Substring(0, level) + (char)(i);
+                    //}
                     if (level == word.Length - 1)
                     {
                         Next[ch - SearchTableStart].WordIndex = wordIndex;
