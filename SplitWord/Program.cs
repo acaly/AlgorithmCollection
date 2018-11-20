@@ -33,7 +33,7 @@ namespace SplitWord
         {
             public RandTestCase1(int seed1, int seed2, int seed3)
             {
-                Dict = MakeDict(seed1, 6000, 6, 20).Concat(MakeDict(seed2, 100, 2, 20));
+                Dict = MakeDict(seed1, 6000, 10, 20).Concat(MakeDict(seed2, 100, 2, 20));
                 String = MakeString(seed3, Dict, 10000);
                 _s1 = seed1;
                 _s2 = seed2;

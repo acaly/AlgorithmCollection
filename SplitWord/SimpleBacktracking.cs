@@ -15,7 +15,6 @@ namespace SplitWord
         {
             var a = dict.Distinct().OrderBy(s => s.Length);
             _words.Add(new WordInfo());
-            int i = 0;
             foreach (var str in a)
             {
                 _words.Add(new WordInfo
@@ -132,7 +131,7 @@ namespace SplitWord
                 {
                     if (_invalidPos.Contains(_strPos))
                     {
-                        if (!TryBacktrack())
+                        if (!(TryLastResult() || TryBacktrack()))
                         {
                             return null;
                         }
