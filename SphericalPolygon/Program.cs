@@ -13,17 +13,15 @@ namespace SphericalPolygon
         {
             var polygon = SPolygonGenerator.GeneratePolygon(new Vector2[]
             {
-                new Vector2(0.1f, 0.2f),
-                new Vector2(-0.3f, 0.2f),
-                new Vector2(-0.2f, -0.2f),
-                new Vector2(-0.1f, 0.1f),
-                new Vector2(-0.1f, -0.2f),
-                new Vector2(0.1f, -0.2f),
+                new Vector2(0.0f, 0.1f),
+                new Vector2(-0.2f, 0.1f),
+                new Vector2(-0.2f, -0.1f),
+                new Vector2(0.0f, -0.1f),
             });
             var triangle = SPolygonGenerator.GenerateTriangle(
-                new Vector2(-0.2f, 0),
-                new Vector2(0.2f, -0.1f),
-                new Vector2(0.2f, 0.1f)
+                new Vector2(0.2f, 0),
+                new Vector2(0.0f, 0.1f),
+                new Vector2(0.0f, -0.1f)
             );
             var result = SPolygonCutter.Cut(polygon, triangle);
         }

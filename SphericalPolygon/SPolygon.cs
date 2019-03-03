@@ -9,7 +9,7 @@ namespace SphericalPolygon
 {
     struct SPolygonRegion
     {
-        public List<Vector3> Segments;
+        public List<Vector3> Vertices;
         public Vector3 RefPoint;
     }
 

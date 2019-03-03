@@ -14,7 +14,7 @@ namespace SphericalPolygon
         public static SPolygonRegion GeneratePolygon(params Vector2[] points)
         {
             var ret = new SPolygonRegion();
-            ret.Segments = points.Select(Transform).ToList();
+            ret.Vertices = points.Select(Transform).ToList();
             ret.RefPoint = new Vector3(0, 0, -1);
             return ret;
         }
